@@ -1,0 +1,162 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:transparent;font-family:'Space Mono',monospace;color:var(--text)}
+  :root{--panel:#222228;--accent:#e8c547;--muted:#6b6b7a;--border:#2e2e38;--text:#e8e8f0;--sub:#9898a8}
+  .wrap{padding:1.5rem 0}
+  h1{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.5px;color:var(--text);margin-bottom:4px}
+  .tagline{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:1.25rem}
+  .unit-toggle{display:flex;gap:0;margin-bottom:1.25rem;border:0.5px solid var(--border);border-radius:6px;overflow:hidden;width:fit-content}
+  .unit-btn{padding:7px 18px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;background:transparent;color:var(--sub);transition:all 0.15s}
+  .unit-btn.active{background:var(--accent);color:#000;font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:10px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:11px;color:var(--sub);letter-spacing:1px;text-transform:uppercase}
+  .input-wrap{position:relative;display:flex;align-items:center}
+  .input-wrap input{background:var(--panel);border:0.5px solid var(--border);border-radius:6px;color:var(--text);font-family:'Space Mono',monospace;font-size:14px;padding:9px 40px 9px 12px;width:100%;outline:none;transition:border 0.15s}
+  .input-wrap input:focus{border-color:var(--accent)}
+  .unit-tag{position:absolute;right:10px;font-size:11px;color:var(--muted);pointer-events:none;letter-spacing:1px}
+  .field input[type=text]{background:var(--panel);border:0.5px solid var(--border);border-radius:6px;color:var(--text);font-family:'Space Mono',monospace;font-size:14px;padding:9px 12px;width:100%;outline:none;transition:border 0.15s}
+  .field input[type=text]:focus{border-color:var(--accent)}
+  .check-field{display:flex;align-items:center;gap:10px;background:var(--panel);border:0.5px solid var(--border);border-radius:6px;padding:10px 12px;cursor:pointer;transition:border 0.15s;user-select:none}
+  .check-field:hover{border-color:var(--accent)}
+  .check-field input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+  .check-field span{font-size:11px;color:var(--sub);letter-spacing:0.5px;text-transform:uppercase;line-height:1.4}
+  .full{grid-column:1/-1}
+  .btn{margin-top:1.25rem;width:100%;padding:14px;background:var(--accent);color:#000;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;letter-spacing:1px;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase;transition:opacity 0.15s,transform 0.1s}
+  .btn:hover{opacity:0.88}
+  .btn:active{transform:scale(0.98)}
+  .results{margin-top:1.25rem;display:none;animation:fadeUp 0.3s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .value-card{background:var(--panel);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;display:flex;flex-direction:column;gap:4px}
+  .value-label{font-size:10px;color:var(--sub);letter-spacing:2px;text-transform:uppercase}
+  .value-num{font-family:'Syne',sans-serif;font-weight:800;font-size:48px;color:var(--accent);line-height:1}
+  .value-sub{font-size:11px;color:var(--muted)}
+  .bmi-card{border-radius:10px;padding:1.25rem;display:flex;flex-direction:column;gap:4px;border:0.5px solid transparent;position:relative;overflow:hidden}
+  .bmi-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+  .bmi-num{font-family:'Syne',sans-serif;font-weight:800;font-size:48px;line-height:1}
+  .bmi-status{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+  .bmi-excellent{background:#1a1a0e;border-color:#b0a030}
+  .bmi-excellent .bmi-label,.bmi-excellent .bmi-num,.bmi-excellent .bmi-status{color:#e8c547}
+  .shine-overlay{position:absolute;top:-40%;left:-60%;width:40%;height:200%;background:linear-gradient(105deg,transparent 40%,rgba(255,220,80,0.18) 50%,transparent 60%);animation:shine 2.5s infinite;pointer-events:none}
+  @keyframes shine{0%{left:-60%}100%{left:160%}}
+  .bmi-healthy{background:#0d1a12;border-color:#2d7a46}
+  .bmi-healthy .bmi-label,.bmi-healthy .bmi-num,.bmi-healthy .bmi-status{color:#4caf72}
+  .bmi-overweight{background:#1a1600;border-color:#8a7000}
+  .bmi-overweight .bmi-label,.bmi-overweight .bmi-num,.bmi-overweight .bmi-status{color:#d4a800}
+  .bmi-obese{background:#1a0d00;border-color:#a04800}
+  .bmi-obese .bmi-label,.bmi-obese .bmi-num,.bmi-obese .bmi-status{color:#e06820}
+  .bmi-extreme{background:#1a0808;border-color:#902020}
+  .bmi-extreme .bmi-label,.bmi-extreme .bmi-num,.bmi-extreme .bmi-status{color:#e03030}
+  .divider{grid-column:1/-1;height:0.5px;background:var(--border)}
+  .name-display{font-family:'Syne',sans-serif;font-size:16px;font-weight:600;color:var(--text);grid-column:1/-1}
+</style>
+<div class="wrap">
+  <h1>Value Scanner</h1>
+  <p class="tagline">Assessment Protocol v1.0</p>
+  <div class="unit-toggle">
+    <button class="unit-btn active" id="btn-metric" onclick="setUnit('metric')">Metric</button>
+    <button class="unit-btn" id="btn-imperial" onclick="setUnit('imperial')">Imperial</button>
+  </div>
+  <div class="grid">
+    <div class="field full">
+      <label>Full name</label>
+      <input type="text" id="f-name" placeholder="Enter name…">
+    </div>
+    <div class="field">
+      <label>Age</label>
+      <div class="input-wrap"><input type="number" id="f-age" min="0" max="120" placeholder="0"><span class="unit-tag">yrs</span></div>
+    </div>
+    <div class="field">
+      <label>Marriages</label>
+      <div class="input-wrap"><input type="number" id="f-marriages" min="0" placeholder="0"><span class="unit-tag">#</span></div>
+    </div>
+    <div class="field">
+      <label>Children</label>
+      <div class="input-wrap"><input type="number" id="f-children" min="0" placeholder="0"><span class="unit-tag">#</span></div>
+    </div>
+    <div class="field">
+      <label>Height</label>
+      <div class="input-wrap"><input type="number" id="f-height" min="0" placeholder="0"><span class="unit-tag" id="tag-height">cm</span></div>
+    </div>
+    <div class="field">
+      <label>Weight</label>
+      <div class="input-wrap"><input type="number" id="f-weight" min="0" placeholder="0"><span class="unit-tag" id="tag-weight">kg</span></div>
+    </div>
+    <label class="check-field">
+      <input type="checkbox" id="f-face">
+      <span>Harmonic face</span>
+    </label>
+    <label class="check-field">
+      <input type="checkbox" id="f-hip">
+      <span>20+ cm hip–waist difference</span>
+    </label>
+  </div>
+  <button class="btn" onclick="calculate()">▶ Verify</button>
+  <div class="results" id="results">
+    <div class="results-grid">
+      <div class="name-display" id="r-name"></div>
+      <div class="divider"></div>
+      <div class="value-card">
+        <span class="value-label">Value score</span>
+        <span class="value-num" id="r-value">—</span>
+        <span class="value-sub">out of 10</span>
+      </div>
+      <div class="bmi-card" id="r-bmi-card">
+        <span class="bmi-label">BMI</span>
+        <span class="bmi-num" id="r-bmi">—</span>
+        <span class="bmi-status" id="r-bmi-status">—</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var unit='metric';
+  function setUnit(u){
+    unit=u;
+    document.getElementById('btn-metric').className='unit-btn'+(u==='metric'?' active':'');
+    document.getElementById('btn-imperial').className='unit-btn'+(u==='imperial'?' active':'');
+    document.getElementById('tag-height').textContent=u==='metric'?'cm':'in';
+    document.getElementById('tag-weight').textContent=u==='metric'?'kg':'lbs';
+  }
+  function calculate(){
+    var name=document.getElementById('f-name').value.trim()||'Unknown';
+    var age=parseFloat(document.getElementById('f-age').value)||0;
+    var marriages=parseFloat(document.getElementById('f-marriages').value)||0;
+    var children=parseFloat(document.getElementById('f-children').value)||0;
+    var hRaw=parseFloat(document.getElementById('f-height').value)||0;
+    var wRaw=parseFloat(document.getElementById('f-weight').value)||0;
+    var face=document.getElementById('f-face').checked;
+    var hip=document.getElementById('f-hip').checked;
+    if(!hRaw||!wRaw){alert('Height and weight are required.');return;}
+    var heightCM=unit==='imperial'?hRaw*2.54:hRaw;
+    var weightKG=unit==='imperial'?wRaw*0.453592:wRaw;
+    var bmi=weightKG/((heightCM/100)*(heightCM/100));
+    var value=10;
+    if(heightCM<170||heightCM>180||bmi>19||!hip){value=7;}
+    if(!face||heightCM<150||heightCM>195){value=4;}
+    if(age>=30){value=value-1;}
+    if(marriages>0){value=value-marriages;}
+    if(children>0){value=value-children;}
+    var bmiClass,bmiStatus;
+    if(bmi>=18.0&&bmi<=19.0){bmiClass='bmi-excellent';bmiStatus='Excellent';}
+    else if(bmi>19.0&&bmi<=24.9){bmiClass='bmi-healthy';bmiStatus='Healthy';}
+    else if(bmi>=25&&bmi<=29.9){bmiClass='bmi-overweight';bmiStatus='Overweight';}
+    else if(bmi>=30&&bmi<=39.9){bmiClass='bmi-obese';bmiStatus='Obese';}
+    else if(bmi>=40){bmiClass='bmi-extreme';bmiStatus='Extremely obese';}
+    else{bmiClass='bmi-healthy';bmiStatus='Underweight';}
+    document.getElementById('r-name').textContent=name;
+    document.getElementById('r-value').textContent=value;
+    document.getElementById('r-bmi').textContent=bmi.toFixed(1);
+    document.getElementById('r-bmi-status').textContent=bmiStatus;
+    var card=document.getElementById('r-bmi-card');
+    card.className='bmi-card '+bmiClass;
+    if(bmiClass==='bmi-excellent'){
+      if(!card.querySelector('.shine-overlay')){var s=document.createElement('div');s.className='shine-overlay';card.appendChild(s);}
+    } else {var s=card.querySelector('.shine-overlay');if(s)s.remove();}
+    var res=document.getElementById('results');
+    res.style.display='block';res.style.animation='none';void res.offsetWidth;res.style.animation='fadeUp 0.3s ease';
+  }
+</script>
