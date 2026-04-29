@@ -23,7 +23,7 @@
   .check-field{display:flex;align-items:center;gap:10px;background:var(--panel);border:0.5px solid var(--border);border-radius:6px;padding:10px 12px;cursor:pointer;transition:border 0.15s;user-select:none}
   .check-field:hover{border-color:var(--accent)}
   .check-field input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
-  .check-field span{font-size:11px;color:var(--sub);letter-spacing:0.5px;text-transform:uppercase;line-height:1.4}
+  .check-field span{font-size:13px;color:var(--sub);letter-spacing:0.5px;text-transform:uppercase;line-height:1.4}
   .full{grid-column:1/-1}
   .btn{margin-top:1.25rem;width:100%;padding:14px;background:var(--accent);color:#000;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;letter-spacing:1px;border:none;border-radius:8px;cursor:pointer;text-transform:uppercase;transition:opacity 0.15s,transform 0.1s}
   .btn:hover{opacity:0.88}
@@ -32,9 +32,9 @@
   @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .value-card{background:var(--panel);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;display:flex;flex-direction:column;gap:4px}
-  .value-label{font-size:10px;color:var(--sub);letter-spacing:2px;text-transform:uppercase}
+  .value-label{font-size:15px;color:var(--sub);letter-spacing:2px;text-transform:uppercase}
   .value-num{font-family:'Syne',sans-serif;font-weight:800;font-size:48px;color:var(--accent);line-height:1}
-  .value-sub{font-size:11px;color:var(--muted)}
+  .value-sub{font-size:15px;color:var(--muted)}
   .bmi-card{border-radius:10px;padding:1.25rem;display:flex;flex-direction:column;gap:4px;border:0.5px solid transparent;position:relative;overflow:hidden}
   .bmi-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
   .bmi-num{font-family:'Syne',sans-serif;font-weight:800;font-size:48px;line-height:1}
@@ -52,7 +52,7 @@
   .bmi-extreme{background:#1a0808;border-color:#902020}
   .bmi-extreme .bmi-label,.bmi-extreme .bmi-num,.bmi-extreme .bmi-status{color:#e03030}
   .divider{grid-column:1/-1;height:0.5px;background:var(--border)}
-  .name-display{font-family:'Syne',sans-serif;font-size:16px;font-weight:600;color:var(--text);grid-column:1/-1}
+  .name-display{font-family:'Syne',sans-serif;font-size:25px;font-weight:600;color:var(--text);grid-column:1/-1}
 </style>
 </head><body style="
     background-color: black !important;
@@ -125,7 +125,7 @@
     height: 40vh;
 "> <button class="btn" onclick="calculate()" style="
     height: 11vh;
-    width: 85vw;
+    width: 60vw;
     margin: auto;
 ">▶ Verify</button> </div>
   <div class="results" id="results">
